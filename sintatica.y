@@ -7,14 +7,33 @@ void yyerror(char *); /* ver abaixo */
 %token INTEIRO
 %token FIM_LINHA
 
-%start linha
+
+%start contas
 
 %%
+
+contas : conta contas
+	   |
+	   ;
+
+
+conta : linha
+	  ;
 
 linha: expressao FIM_LINHA { printf("valor: %d\n", $1); }
      ;
 
+
+
 expressao: expressao '+' termo { $$ = $1 + $3; }
+         | termo { $$ = $1; }
+         ;
+
+expressao: expressao '-' termo { $$ = $1 - $3; }
+         | termo { $$ = $1; }
+         ;
+
+expressao: expressao '*' termo { $$ = $1 * $3; }
          | termo { $$ = $1; }
          ;
 
